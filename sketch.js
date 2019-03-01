@@ -3,10 +3,10 @@ let balls = [];
 function setup() {
   let canvas = createCanvas(800, 600);
   canvas.position(20, 20);
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     let x = floor(random() * width);
     let y = floor(random() * height);
-    balls.push(new Ball(x, y, 5, -5));
+    balls.push(new Ball(x, y, 3, -3));
   }
 }
 

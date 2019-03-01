@@ -1,40 +1,40 @@
 class Ball {
   constructor(x, y, vx = 0, vy = 0) {
-    this.x = x;
-    this.y = y;
-    this.width = 30;
-    this.height = 30;
-    this.vx = vx;
-    this.vy = vy;
+    this.r = createVector(x, y);
+    this.d = 30;
+    this.v = createVector(vx, vy);
   }
 
   show() {
     fill(200, 0, 0);
-    ellipse(this.x, this.y, this.width, this.height);
+    ellipse(this.r.x, this.r.y, this.d, this.d);
   }
   static collision(o1, o2) {
-    let dx = (o1.x - o2.x);
-    let dy = (o1.y - o2.y);
-    let dist = dx * dx + dy * dy;
-    if (dist < o1.width * o1.width) {
-      o1.vy *= -1;
-      o2.vy *= -1;
-      o1.vx *= -1;
-      o2.vx *= -1;
+    let v12 = p5.Vector.sub(o2.v, o1.v);
+    v12.mult(0.5);
+    let r12 = p5.Vector.sub(o2.r, o1.r);
+    let vm = p5.Vector.add(o1.v, o2.v);
+    vm.mult(0.5);
+    if (r12.mag() < 30) {
+      r12.normalize();
+      let tan = createVector(-r12.y, r12.x);
+      tan.mult(tan.dot(v12));
+      r12.mult(r12.dot(v12));
+      let v = p5.Vector.sub(tan, r12);
+      o1.v = p5.Vector.add(vm, v);
+      o2.v = p5.Vector.sub(vm, v);
     }
-    // console.log(dist);
   }
   checkEdges() {
-    if (this.y < 0 || this.y > height) {
-      this.vy *= -1;
+    if (this.r.y < 0 || this.r.y > height) {
+      this.v.y *= -1;
     }
-    if (this.x < 0 || this.x > width) {
-      this.vx *= -1;
+    if (this.r.x < 0 || this.r.x > width) {
+      this.v.x *= -1;
     }
   }
   update() {
-    this.x += this.vx;
-    this.y += this.vy;
+    this.r.add(this.v);
   }
 
 }
