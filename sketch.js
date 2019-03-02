@@ -1,11 +1,12 @@
 let balls = [];
+let anzahl = 80;
 
 function setup() {
   let canvas = createCanvas(800, 600);
   canvas.position(20, 20);
-  for (let i = 0; i < 100; i++) {
-    let x = floor(random() * width);
-    let y = floor(random() * height);
+  for (let i = 0; i < anzahl; i++) {
+    let x = i * width / anzahl;
+    let y = i * height / anzahl;
     balls.push(new Ball(x, y, 3, -3));
   }
 }
